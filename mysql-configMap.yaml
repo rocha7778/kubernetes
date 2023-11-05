@@ -1,0 +1,10 @@
+apiVersion : v1
+kind : ConfigMap
+metadata:
+  name : db-config
+  namespace: rocha
+data:
+  host : mysql
+  db-name: product
+  port: "3306"
+  

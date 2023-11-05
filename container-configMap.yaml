@@ -1,0 +1,9 @@
+apiVersion : v1
+kind : ConfigMap
+metadata:
+  name : container-config
+  namespace: rocha
+data:
+  container-port: "3306"
+  container-profile: "prod"
+  

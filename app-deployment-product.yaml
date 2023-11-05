@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-product-service
+  namespace: rocha
+spec:
+  selector:
+    matchLabels:
+      app: app-product-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-product-service
+    spec:
+      containers:
+        - name: app-product-service
+          image: rocha7778/app-product-service-kubernetes:v1.0
+          ports:
+            - containerPort : 8080
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: db-name
+
+
+            - name: MYSQL_HOST          
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: host
+
+            - name: MYSQL_PORT          
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: port
+
+            - name: MYSQL_USERNAME          
+              valueFrom:
+                secretKeyRef: mysql-secrets
+                name: user
+
+
+            - name: MYSQL_ROOT_PASSWORD          
+              valueFrom:
+                secretKeyRef: mysql-secrets
+                name: password 
+
+            - name: SPRING_PROFILES_ACTIVE          
+              valueFrom:
+                configMapKeyRef:
+                  name: container-config
+                  key: container-profile
+
+            - name: CONTAINER_PORT          
+              valueFrom:
+                configMapKeyRef:
+                  name: container-config
+                  key: container-port
